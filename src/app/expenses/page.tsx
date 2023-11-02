@@ -5,7 +5,7 @@ import ExpensesDataTable from "./data-table";
 
 export default function Expenses() {
   return (
-    <div className="container py-10 mx-auto">
+    <div className="container mx-auto py-10">
       <ExpensesDataTable columns={ExpenseColumns} data={ExpenseData} />
     </div>
   );

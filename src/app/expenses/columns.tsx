@@ -46,7 +46,7 @@ export const ExpenseColumns: ColumnDef<Expense>[] = [
     header: ({ column }) => {
       return (
         <div
-          className="flex gap-1 items-center justify-center cursor-pointer"
+          className="flex cursor-pointer items-center justify-center gap-1"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           ID
