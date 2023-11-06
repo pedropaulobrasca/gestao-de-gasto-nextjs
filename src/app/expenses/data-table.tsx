@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "@/components/theme-toggle";
 import { exportToExcel } from "@/lib/xlsx";
+import { UserButton } from "@clerk/nextjs";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -86,6 +87,8 @@ export default function ExpensesDataTable<TData, TValue>({
           }}
           className="max-w-xs"
         />
+
+        <UserButton afterSignOutUrl="/" />
 
         <div className="flex gap-4">
           <Button onClick={() => exportToExcel()}>Export to Excel</Button>
