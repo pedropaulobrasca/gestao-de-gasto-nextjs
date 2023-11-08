@@ -1,9 +1,6 @@
-import { db } from "@/lib/db";
-import { expenses } from "@/lib/db/schema";
+import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-
-type Expense = typeof expenses.$inferInsert;
 
 // /api/create-expense
 export async function POST(req: Request, res: Response) {
@@ -20,7 +17,22 @@ export async function POST(req: Request, res: Response) {
       totalValue,
       description,
     } = body;
-    
+
+    const createdExpense = await prisma.expense.create({
+      data: {
+        paid,
+        expense,
+        monthlyValue,
+        date,
+        installments,
+        totalValue,
+        description,
+        userClerkId: userId!,
+      },
+    });
+
+    console.log(createdExpense);
+
     return NextResponse.json(
       { message: "Expense created successfully" },
       { status: 200 },

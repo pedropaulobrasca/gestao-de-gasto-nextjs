@@ -32,6 +32,8 @@ export default async function Home() {
             Sign Up <Plus className="ml-2 h-4"/>
           </Button>
         </Link>
+
+        <UserButton />
       </div>
     </div>
   );
