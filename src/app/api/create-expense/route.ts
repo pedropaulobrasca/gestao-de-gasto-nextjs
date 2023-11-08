@@ -1,9 +1,16 @@
+import { db } from "@/lib/db";
+import { expenses } from "@/lib/db/schema";
+import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+
+type Expense = typeof expenses.$inferInsert;
 
 // /api/create-expense
 export async function POST(req: Request, res: Response) {
   try {
+    const { userId } = await auth();
     const body = await req.json();
+
     const {
       paid,
       expense,
@@ -12,10 +19,12 @@ export async function POST(req: Request, res: Response) {
       installments,
       totalValue,
       description,
-      userId,
     } = body;
-
     
+    return NextResponse.json(
+      { message: "Expense created successfully" },
+      { status: 200 },
+    );
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -24,13 +33,3 @@ export async function POST(req: Request, res: Response) {
     );
   }
 }
-
-// paid: false,
-// expense: "Paper Towel Touchless",
-// monthlyValue: 55,
-// date: "3/28/2023",
-// installments: 1,
-// totalValue: 65,
-// description:
-//   "In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.\n\nAliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.",
-// userId: "0290542c-4954-4e87-aa8b-b300d9089a2c",

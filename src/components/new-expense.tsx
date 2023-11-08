@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, PlusCircle } from "lucide-react";
 import { format } from "date-fns";
+import axios from "axios";
 import * as z from "zod";
 
 import {
@@ -32,7 +33,6 @@ import { Switch } from "./ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import { cn } from "@/lib/utils";
-import { toast } from "./ui/use-toast";
 
 const formSchema = z.object({
   expense: z.string().min(2, {
@@ -65,8 +65,8 @@ export default function NewExpense() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await axios.post("/api/create-expense", { ...values });
   }
 
   function onChangeInstallments(e: React.ChangeEvent<HTMLInputElement>) {
