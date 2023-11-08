@@ -38,17 +38,20 @@ const formSchema = z.object({
   expense: z.string().min(2, {
     message: "Expense must be at least 2 characters.",
   }),
-  totalValue: z.number().nonnegative().nullable(),
+  totalValue: z.number().nonnegative().min(0.01, {
+    message: "Total value must be at least 0.01.",
+  }),
   paid: z.boolean(),
   monthlyValue: z.number().nonnegative().nullable(),
   date: z.date(),
   installments: z.number().nonnegative().nullable(),
-  description: z.string(),
+  description: z.string().nullable(),
 });
 
 export default function NewExpense() {
   const [isInstallmentsGreaterThanZero, setIsInstallmentsGreaterThanZero] =
     useState(false);
+  const [isInstallments, setIsInstallments] = useState(false);
 
   // 1. Define form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -66,7 +69,14 @@ export default function NewExpense() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await axios.post("/api/create-expense", { ...values });
+    try {
+      const data = await axios.post("/api/create-expense", { ...values });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      form.reset();
+    }
   }
 
   function onChangeInstallments(e: React.ChangeEvent<HTMLInputElement>) {
@@ -77,6 +87,11 @@ export default function NewExpense() {
     } else {
       setIsInstallmentsGreaterThanZero(false);
     }
+  }
+
+  function onChangeInstallmentsSwitch() {
+    console.log("switch", isInstallments);
+    setIsInstallments(!isInstallments);
   }
 
   return (
@@ -126,24 +141,30 @@ export default function NewExpense() {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="installments"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Installments</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          onChangeCapture={onChangeInstallments}
-                          onChange={(e) => field.onChange(+e.target.value)}
-                        />
-                      </FormControl>
-                      {/* <FormDescription></FormDescription> */}
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="flex flex-col gap-2">
+                  <FormLabel>Is it paid in installments?</FormLabel>
+                  <Switch onCheckedChange={onChangeInstallmentsSwitch} />
+                </div>
+
+                {isInstallments && (
+                  <FormField
+                    control={form.control}
+                    name="installments"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Installments</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            onChangeCapture={onChangeInstallments}
+                            onChange={(e) => field.onChange(+e.target.value)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
 
                 {isInstallmentsGreaterThanZero && (
                   <FormField
@@ -158,7 +179,7 @@ export default function NewExpense() {
                             onChange={(e) => field.onChange(+e.target.value)}
                           />
                         </FormControl>
-                        {/* <FormDescription></FormDescription> */}
+                        {/* <FormDescription>0 if non installments</FormDescription> */}
                         <FormMessage />
                       </FormItem>
                     )}
