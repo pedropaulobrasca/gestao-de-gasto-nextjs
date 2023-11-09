@@ -33,6 +33,7 @@ import { Switch } from "./ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import { cn } from "@/lib/utils";
+import { auth } from "@clerk/nextjs";
 
 const formSchema = z.object({
   expense: z.string().min(2, {
@@ -48,7 +49,11 @@ const formSchema = z.object({
   description: z.string().nullable(),
 });
 
-export default function NewExpense() {
+interface Props {
+  userClertId?: string;
+}
+
+export default function NewExpense({ userClertId }: Props) {
   const [isInstallmentsGreaterThanZero, setIsInstallmentsGreaterThanZero] =
     useState(false);
   const [isInstallments, setIsInstallments] = useState(false);
@@ -70,7 +75,10 @@ export default function NewExpense() {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const data = await axios.post("/api/create-expense", { ...values });
+      const data = await axios.post("http://localhost:3333/expense", {
+        ...values,
+        userClerkId: userClertId,
+      });
       console.log(data);
     } catch (error) {
       console.log(error);
