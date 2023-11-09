@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Expense } from "@/expenses";
 import { ColumnDef } from "@tanstack/react-table";
 
 import {
@@ -16,7 +15,7 @@ import {
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
-export const ExpenseColumns: ColumnDef<Expense>[] = [
+export const ExpenseColumns: ColumnDef<any[]>[] = [
   {
     id: "select",
     header: ({ table }) => {
@@ -102,7 +101,7 @@ export const ExpenseColumns: ColumnDef<Expense>[] = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const expense = row.original as Expense;
+      const expense = row.original as [];
       return (
         <DropdownMenu>
           <DropdownMenuTrigger>

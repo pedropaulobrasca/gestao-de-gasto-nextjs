@@ -1,4 +1,3 @@
-import { ExpenseData } from "@/expenses";
 import xlsx, { IJsonSheet } from "json-as-xlsx";
 
 export function exportToExcel() {
@@ -15,7 +14,7 @@ export function exportToExcel() {
         { label: "Total Value", value: "totalValue" },
         { label: "Description", value: "description" },
       ],
-      content: ExpenseData,
+      content: [],
     },
   ];
 
