@@ -94,10 +94,6 @@ export const ExpenseColumns: ColumnDef<any[]>[] = [
     },
   },
   {
-    header: "User ID",
-    accessorKey: "userId",
-  },
-  {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
