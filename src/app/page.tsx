@@ -2,11 +2,16 @@ import { Button } from "@/components/ui/button";
 import { UserButton, auth } from "@clerk/nextjs";
 import { LogIn, Plus, User } from "lucide-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const { userId } = await auth();
 
   const isAuth = !!userId;
+
+  if (isAuth) {
+    redirect("/expenses")
+  }
 
   return (
     <div className="flex min-h-screen w-screen flex-col items-center justify-center bg-gradient-to-r from-rose-100 to-teal-100">
