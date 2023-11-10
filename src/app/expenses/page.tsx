@@ -23,7 +23,7 @@ export default async function Expenses() {
   const expenses = await getData();
   return (
     <div className="container mx-auto flex flex-col py-10">
-      <NewExpense userClertId={userId as string} />
+      <NewExpense userClerkId={userId as string} />
       <ExpensesDataTable columns={ExpenseColumns} data={expenses.expenses} />
     </div>
   );
