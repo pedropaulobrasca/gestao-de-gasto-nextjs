@@ -55,6 +55,10 @@ export default function ExpensesDataTable<TData, TValue>({
   const [columnVisibility, setcolumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
+  if (!data) {
+    data = [];
+  }
+
   const table = useReactTable({
     data,
     columns,

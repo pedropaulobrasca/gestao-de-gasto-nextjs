@@ -98,7 +98,6 @@ export default function NewExpense({ userClertId }: Props) {
   }
 
   function onChangeInstallmentsSwitch() {
-    console.log("switch", isInstallments);
     setIsInstallments(!isInstallments);
   }
 

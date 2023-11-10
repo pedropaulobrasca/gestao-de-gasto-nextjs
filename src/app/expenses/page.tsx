@@ -5,12 +5,16 @@ import NewExpense from "@/components/new-expense";
 import axios from "axios";
 
 async function getData() {
-  const { userId } = await auth();
-  const { data } = await axios.get(
-    `http://localhost:3333/expense?userClerkId=${userId}`,
-  );
+  try {
+    const { userId } = await auth();
+    const { data } = await axios.get(
+      `http://localhost:3333/expense?userClerkId=${userId}`,
+    );
 
-  return data;
+    return data;
+  } catch (error) {
+    return [];
+  }
 }
 
 export default async function Expenses() {
