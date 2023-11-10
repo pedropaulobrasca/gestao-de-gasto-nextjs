@@ -39,16 +39,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "@/components/theme-toggle";
 import { exportToExcel } from "@/lib/xlsx";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, auth } from "@clerk/nextjs";
+import NewExpense from "@/components/new-expense";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  userClerkId: string;
 }
 
 export default function ExpensesDataTable<TData, TValue>({
   columns,
   data,
+  userClerkId,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -92,8 +95,6 @@ export default function ExpensesDataTable<TData, TValue>({
           className="max-w-xs"
         />
 
-        <UserButton afterSignOutUrl="/" />
-
         <div className="flex gap-4">
           <Button onClick={() => exportToExcel()}>Export to Excel</Button>
           <DropdownMenu>
@@ -124,6 +125,7 @@ export default function ExpensesDataTable<TData, TValue>({
             </DropdownMenuContent>
           </DropdownMenu>
           <ModeToggle />
+          <NewExpense userClerkId={userClerkId as string} />
         </div>
       </div>
       <div className="rounded-md border">
@@ -154,7 +156,7 @@ export default function ExpensesDataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} >
+                    <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

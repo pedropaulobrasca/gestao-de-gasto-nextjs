@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { UserButton, auth } from "@clerk/nextjs";
 import { ExpenseColumns } from "./columns";
 import ExpensesDataTable from "./data-table";
 import NewExpense from "@/components/new-expense";
@@ -23,8 +23,13 @@ export default async function Expenses() {
   const expenses = await getData();
   return (
     <div className="container mx-auto flex flex-col py-10">
-      <NewExpense userClerkId={userId as string} />
-      <ExpensesDataTable columns={ExpenseColumns} data={expenses.expenses} />
+      <UserButton afterSignOutUrl="/" />
+
+      <ExpensesDataTable
+        columns={ExpenseColumns}
+        data={expenses.expenses}
+        userClerkId={userId as string}
+      />
     </div>
   );
 }
