@@ -11,7 +11,6 @@ import * as z from "zod";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -20,7 +19,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -33,7 +31,6 @@ import { Switch } from "./ui/switch";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Calendar } from "./ui/calendar";
 import { cn } from "@/lib/utils";
-import { auth } from "@clerk/nextjs";
 
 const formSchema = z.object({
   expense: z.string().min(2, {
@@ -50,13 +47,12 @@ const formSchema = z.object({
 });
 
 interface Props {
-  userClertId?: string;
+  userClerkId?: string;
 }
 
-export default function NewExpense({ userClertId }: Props) {
-  const [isInstallmentsGreaterThanZero, setIsInstallmentsGreaterThanZero] =
-    useState(false);
+export default function NewExpense({ userClerkId }: Props) {
   const [isInstallments, setIsInstallments] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // 1. Define form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -75,25 +71,16 @@ export default function NewExpense({ userClertId }: Props) {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const data = await axios.post("http://localhost:3333/expense", {
+      await axios.post("http://localhost:3333/expense", {
         ...values,
-        userClerkId: userClertId,
+        userClerkId,
       });
-      console.log(data);
     } catch (error) {
       console.log(error);
     } finally {
       form.reset();
-    }
-  }
-
-  function onChangeInstallments(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = parseInt(e.target.value);
-
-    if (value > 0) {
-      setIsInstallmentsGreaterThanZero(true);
-    } else {
-      setIsInstallmentsGreaterThanZero(false);
+      setIsDialogOpen(false);
+      setIsInstallments(false);
     }
   }
 
@@ -103,8 +90,8 @@ export default function NewExpense({ userClertId }: Props) {
 
   return (
     <div className="flex w-full items-center justify-end">
-      <Dialog>
-        <DialogTrigger>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger onClick={() => setIsDialogOpen(true)}>
           <PlusCircle />
         </DialogTrigger>
         <DialogContent>
@@ -154,43 +141,42 @@ export default function NewExpense({ userClertId }: Props) {
                 </div>
 
                 {isInstallments && (
-                  <FormField
-                    control={form.control}
-                    name="installments"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Installments</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            onChangeCapture={onChangeInstallments}
-                            onChange={(e) => field.onChange(+e.target.value)}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                )}
+                  <div className="flex gap-6">
+                    <FormField
+                      control={form.control}
+                      name="installments"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Installments</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              onChange={(e) => field.onChange(+e.target.value)}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                {isInstallmentsGreaterThanZero && (
-                  <FormField
-                    control={form.control}
-                    name="monthlyValue"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Installment value</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            onChange={(e) => field.onChange(+e.target.value)}
-                          />
-                        </FormControl>
-                        {/* <FormDescription>0 if non installments</FormDescription> */}
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                    <FormField
+                      control={form.control}
+                      name="monthlyValue"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Installment value</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              onChange={(e) => field.onChange(+e.target.value)}
+                            />
+                          </FormControl>
+                          {/* <FormDescription>0 if non installments</FormDescription> */}
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 )}
 
                 <FormField
