@@ -11,6 +11,8 @@ async function getData() {
       `http://localhost:3333/expense?userClerkId=${userId}`,
     );
 
+    console.log(data);
+
     return data;
   } catch (error) {
     return [];
@@ -20,7 +22,7 @@ async function getData() {
 export default async function Expenses() {
   const { userId } = await auth();
 
-  const expenses = await getData();
+  const {expenses, totalValue, monthlyValue} = await getData();
   return (
     <div className="container mx-auto flex flex-col py-10">
       <UserButton afterSignOutUrl="/" />
