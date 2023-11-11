@@ -44,6 +44,7 @@ const formSchema = z.object({
   date: z.date(),
   installments: z.number().nonnegative().nullable(),
   description: z.string().nullable(),
+  repeat: z.boolean(),
 });
 
 interface Props {
@@ -65,6 +66,7 @@ export default function NewExpense({ userClerkId }: Props) {
       installments: 0,
       totalValue: 0,
       description: "",
+      repeat: false,
     },
   });
 
@@ -81,6 +83,8 @@ export default function NewExpense({ userClerkId }: Props) {
       form.reset();
       setIsDialogOpen(false);
       setIsInstallments(false);
+      // reload page
+      window.location.reload();
     }
   }
 
@@ -127,6 +131,24 @@ export default function NewExpense({ userClerkId }: Props) {
                         <Input
                           type="number"
                           onChange={(e) => field.onChange(+e.target.value)}
+                        />
+                      </FormControl>
+                      {/* <FormDescription></FormDescription> */}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="repeat"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Repeat?</FormLabel>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
                         />
                       </FormControl>
                       {/* <FormDescription></FormDescription> */}
