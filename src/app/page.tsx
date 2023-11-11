@@ -10,7 +10,7 @@ export default async function Home() {
   const isAuth = !!userId;
 
   if (isAuth) {
-    redirect("/expenses")
+    redirect("/dashboard")
   }
 
   return (

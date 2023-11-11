@@ -37,9 +37,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ModeToggle } from "@/components/theme-toggle";
 import { exportToExcel } from "@/lib/xlsx";
-import { UserButton, auth } from "@clerk/nextjs";
 import NewExpense from "@/components/new-expense";
 
 interface DataTableProps<TData, TValue> {
@@ -99,7 +97,7 @@ export default function ExpensesDataTable<TData, TValue>({
           <Button onClick={() => exportToExcel()}>Export to Excel</Button>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Button variant="outline" className="ml-4">
+              <Button variant="outline">
                 Columns
               </Button>
             </DropdownMenuTrigger>
@@ -124,7 +122,6 @@ export default function ExpensesDataTable<TData, TValue>({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <ModeToggle />
           <NewExpense userClerkId={userClerkId as string} />
         </div>
       </div>

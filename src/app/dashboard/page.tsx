@@ -1,0 +1,54 @@
+import { UserButton, auth } from "@clerk/nextjs";
+import { ExpenseColumns } from "./columns";
+import ExpensesDataTable from "./data-table";
+import NewExpense from "@/components/new-expense";
+import axios from "axios";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
+import { ModeToggle } from "@/components/theme-toggle";
+
+async function getData() {
+  try {
+    const { userId } = await auth();
+    const { data } = await axios.get(
+      `http://localhost:3333/expense?userClerkId=${userId}`,
+    );
+
+    return data;
+  } catch (error) {
+    return [];
+  }
+}
+
+export default async function Dashboard() {
+  const { userId } = await auth();
+
+  const { expenses, totalValue, monthlyValue } = await getData();
+  return (
+    <div className="container mx-auto flex flex-col py-10">
+      <nav className="mb-6 flex items-center justify-between">
+        <UserButton afterSignOutUrl="/" />
+        <ModeToggle />
+      </nav>
+
+      <Separator />
+
+      <Tabs defaultValue="expenses" className="mt-6">
+        <TabsList>
+          <TabsTrigger value="expenses">Expenses</TabsTrigger>
+          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+        </TabsList>
+        <TabsContent value="expenses">
+          <ExpensesDataTable
+            columns={ExpenseColumns}
+            data={expenses.expenses}
+            userClerkId={userId as string}
+          />
+        </TabsContent>
+        <TabsContent value="dashboard">Change your password here.</TabsContent>
+      </Tabs>
+    </div>
+  );
+}
