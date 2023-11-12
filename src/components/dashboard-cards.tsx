@@ -5,6 +5,7 @@ interface Props {
   expenses: {
     monthlyValue: number;
     totalValue: number;
+    payable: number;
   };
 }
 
@@ -19,6 +20,11 @@ export default function DashboardCards({ expenses }: Props) {
     style: "currency",
     currency: "BRL",
   }).format(expenses.totalValue);
+
+  const formatedPayableValue = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(expenses.payable);
 
   return (
     <div className="flex gap-6">
@@ -39,6 +45,16 @@ export default function DashboardCards({ expenses }: Props) {
         </CardHeader>
         <CardContent className="flex items-center justify-center">
           <p className="text-4xl font-bold">{formattedTotalValue}</p>
+        </CardContent>
+      </Card>
+
+      <Card className="w-[400px]">
+        <CardHeader className="flex flex-row items-center justify-around">
+          <CardTitle className="mt-[6px]">Payable</CardTitle>
+          <DollarSign className="text-zinc-500" />
+        </CardHeader>
+        <CardContent className="flex items-center justify-center">
+          <p className="text-4xl font-bold">{formatedPayableValue}</p>
         </CardContent>
       </Card>
     </div>
