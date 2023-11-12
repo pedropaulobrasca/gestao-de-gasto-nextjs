@@ -44,7 +44,7 @@ const formSchema = z.object({
   date: z.date(),
   installments: z.number().nonnegative().nullable(),
   description: z.string().nullable(),
-  repeat: z.boolean(),
+  repeatExpense: z.boolean(),
 });
 
 interface Props {
@@ -66,7 +66,7 @@ export default function NewExpense({ userClerkId }: Props) {
       installments: 0,
       totalValue: 0,
       description: "",
-      repeat: false,
+      repeatExpense: false,
     },
   });
 
@@ -141,7 +141,7 @@ export default function NewExpense({ userClerkId }: Props) {
 
                 <FormField
                   control={form.control}
-                  name="repeat"
+                  name="repeatExpense"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel>Repeat?</FormLabel>
