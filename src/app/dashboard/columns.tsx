@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -22,6 +23,7 @@ import {
   X,
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Expense } from "@/types/expense";
 
 export const ExpenseColumns: ColumnDef<any[]>[] = [
   // {
@@ -68,7 +70,11 @@ export const ExpenseColumns: ColumnDef<any[]>[] = [
     accessorKey: "id",
     cell: ({ row }) => {
       const id = row.getValue<number>("id");
-      return <span className="font-extrabold flex items-center justify-center">{id}</span>;
+      return (
+        <span className="flex items-center justify-center font-extrabold">
+          {id}
+        </span>
+      );
     },
   },
   {
@@ -161,7 +167,14 @@ export const ExpenseColumns: ColumnDef<any[]>[] = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const expense = row.original as [];
+      const expense: any = row.original;
+
+      const handleDelete = async () => {
+        await axios.delete(`http://localhost:3333/expense/${expense.id}`);
+
+        window.location.reload();
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -171,14 +184,8 @@ export const ExpenseColumns: ColumnDef<any[]>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
-                console.log(expense);
-              }}
-            >
-              Copy
-            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
+            <DropdownMenuItem>Copy</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View</DropdownMenuItem>
           </DropdownMenuContent>
