@@ -48,3 +48,8 @@
     --ring: 35.5 91.7% 32.9%;
   }
 }
+
+::selection {
+  color: hsl(var(--primary-foreground));
+  background: hsl(var(--primary));
+}
