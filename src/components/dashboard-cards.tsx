@@ -27,7 +27,7 @@ export default function DashboardCards({ expenses }: Props) {
   }).format(expenses.payable);
 
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-6 items-center justify-center mt-3">
       <Card className="w-[400px]">
         <CardHeader className="flex flex-row items-center justify-around">
           <CardTitle className="mt-[6px]">This Month Value</CardTitle>
