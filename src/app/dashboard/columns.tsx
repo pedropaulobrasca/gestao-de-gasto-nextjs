@@ -24,6 +24,8 @@ import {
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Expense } from "@/types/expense";
+import EditExpense from "@/components/edit-expense";
+import { cn } from "@/lib/utils";
 
 export const ExpenseColumns: ColumnDef<any[]>[] = [
   // {
@@ -176,20 +178,29 @@ export const ExpenseColumns: ColumnDef<any[]>[] = [
       };
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button variant={"ghost"}>
-              <MoreHorizontal size={16} />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
-            <DropdownMenuItem>Copy</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button variant={"ghost"}>
+                <MoreHorizontal size={16} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <div className="justify-center items-center m-4 flex">
+                <EditExpense data={expense} />
+              </div>
+              <div
+                className="justify-center items-center m-4 flex cursor-pointer "
+                onClick={handleDelete}
+              >
+                Delete
+              </div>
+              <div className="justify-center items-center m-4 flex cursor-pointer">Copy</div>
+              <DropdownMenuSeparator />
+              <div className="justify-center items-center m-4 flex">View</div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </>
       );
     },
   },
