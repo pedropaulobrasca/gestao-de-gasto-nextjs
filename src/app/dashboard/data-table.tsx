@@ -15,7 +15,6 @@ import {
   VisibilityState,
   RowSelectionState,
 } from "@tanstack/react-table";
-
 import {
   Table,
   TableBody,
@@ -24,19 +23,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { exportToExcel } from "@/lib/xlsx";
 import NewExpense from "@/components/new-expense";
 
@@ -97,9 +92,7 @@ export default function ExpensesDataTable<TData, TValue>({
           <Button onClick={() => exportToExcel()}>Export to Excel</Button>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Button variant="outline">
-                Columns
-              </Button>
+              <Button variant="outline">Columns</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Columns</DropdownMenuLabel>

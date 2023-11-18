@@ -1,4 +1,3 @@
-import { UserButton, auth } from "@clerk/nextjs";
 import { ExpenseColumns } from "./columns";
 import ExpensesDataTable from "./data-table";
 import axios from "axios";
@@ -10,7 +9,7 @@ import DashboardCards from "@/components/dashboard-cards";
 
 async function getData() {
   try {
-    const { userId } = await auth();
+    const userId = 1;
     const { data } = await axios.get(
       `http://localhost:3333/expense?userClerkId=${userId}`,
     );
@@ -22,13 +21,11 @@ async function getData() {
 }
 
 export default async function Dashboard() {
-  const { userId } = await auth();
   const { expenses } = await getData();
 
   return (
     <div className="container mx-auto flex flex-col py-10">
       <nav className="mb-6 flex items-center justify-between">
-        <UserButton afterSignOutUrl="/" />
         <ModeToggle />
       </nav>
 
@@ -45,7 +42,7 @@ export default async function Dashboard() {
           <ExpensesDataTable
             columns={ExpenseColumns}
             data={expenses.expenses}
-            userClerkId={userId as string}
+            userClerkId={"123aass"}
           />
         </TabsContent>
         <TabsContent value="dashboard">Change your password here.</TabsContent>

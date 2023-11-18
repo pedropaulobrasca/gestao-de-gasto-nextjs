@@ -3,29 +3,15 @@
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
+import { ArrowDown, ArrowUp, Check, MoreHorizontal, X } from "lucide-react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import {
-  ArrowDown,
-  ArrowUp,
-  ArrowUpDown,
-  Check,
-  CheckSquare,
-  MoreHorizontal,
-  X,
-} from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Expense } from "@/types/expense";
 import EditExpense from "@/components/edit-expense";
-import { cn } from "@/lib/utils";
 
 export const ExpenseColumns: ColumnDef<any[]>[] = [
   // {
@@ -186,18 +172,20 @@ export const ExpenseColumns: ColumnDef<any[]>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <div className="justify-center items-center m-4 flex">
+              <div className="m-4 flex items-center justify-center">
                 <EditExpense data={expense} />
               </div>
               <div
-                className="justify-center items-center m-4 flex cursor-pointer "
+                className="m-4 flex cursor-pointer items-center justify-center "
                 onClick={handleDelete}
               >
                 Delete
               </div>
-              <div className="justify-center items-center m-4 flex cursor-pointer">Copy</div>
+              <div className="m-4 flex cursor-pointer items-center justify-center">
+                Copy
+              </div>
               <DropdownMenuSeparator />
-              <div className="justify-center items-center m-4 flex">View</div>
+              <div className="m-4 flex items-center justify-center">View</div>
             </DropdownMenuContent>
           </DropdownMenu>
         </>

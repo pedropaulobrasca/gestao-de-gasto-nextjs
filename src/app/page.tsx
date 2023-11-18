@@ -1,18 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { UserButton, auth } from "@clerk/nextjs";
-import { LogIn, Plus, User } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { LogIn, Plus } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 export default async function Home() {
-  const { userId } = await auth();
-
-  const isAuth = !!userId;
-
-  if (isAuth) {
-    redirect("/dashboard")
-  }
-
   return (
     <div className="flex min-h-screen w-screen flex-col items-center justify-center bg-gradient-to-r from-rose-100 to-teal-100">
       <div className="flex flex-col items-center justify-center gap-5">
@@ -26,7 +18,7 @@ export default async function Home() {
       </p>
 
       <div className="mt-5 flex gap-5">
-        <Link href="/sign-in">
+        <Link href="/dashboard">
           <Button variant={"secondary"}>
             Sign In <LogIn className="ml-2 h-4" />
           </Button>
@@ -34,11 +26,9 @@ export default async function Home() {
 
         <Link href="/sign-up">
           <Button>
-            Sign Up <Plus className="ml-2 h-4"/>
+            Sign Up <Plus className="ml-2 h-4" />
           </Button>
         </Link>
-
-        <UserButton />
       </div>
     </div>
   );
