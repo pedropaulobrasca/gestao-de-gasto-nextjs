@@ -9,7 +9,7 @@ import DashboardCards from "@/components/dashboard-cards";
 
 async function getData() {
   try {
-    const userId = 1;
+    const userId = "user_2XbUy7McxXZFrwIZVpGE6C2j2D0";
     const { data } = await axios.get(
       `http://localhost:3333/expense?userClerkId=${userId}`,
     );
@@ -42,7 +42,7 @@ export default async function Dashboard() {
           <ExpensesDataTable
             columns={ExpenseColumns}
             data={expenses.expenses}
-            userClerkId={"123aass"}
+            userClerkId={"user_2XbUy7McxXZFrwIZVpGE6C2j2D0"}
           />
         </TabsContent>
         <TabsContent value="dashboard">Change your password here.</TabsContent>
