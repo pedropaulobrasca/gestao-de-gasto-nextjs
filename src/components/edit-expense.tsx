@@ -48,12 +48,12 @@ const formSchema = z.object({
 });
 
 interface Props {
-  userClerkId?: string;
+  userId?: string;
   open?: boolean;
   data?: any;
 }
 
-export default function EditExpense({ userClerkId, open, data }: Props) {
+export default function EditExpense({ userId, open, data }: Props) {
   const [isInstallments, setIsInstallments] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -81,7 +81,7 @@ export default function EditExpense({ userClerkId, open, data }: Props) {
     try {
       await axios.post("http://localhost:3333/expense", {
         ...values,
-        userClerkId,
+        userId,
       });
     } catch (error) {
       console.log(error);
@@ -90,7 +90,7 @@ export default function EditExpense({ userClerkId, open, data }: Props) {
       setIsDialogOpen(false);
       setIsInstallments(false);
       // reload page
-      window.location.reload();
+      // window.location.reload();
     }
   }
 

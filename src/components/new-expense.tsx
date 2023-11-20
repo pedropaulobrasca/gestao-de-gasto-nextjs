@@ -48,10 +48,10 @@ const formSchema = z.object({
 });
 
 interface Props {
-  userClerkId?: string;
+  userId?: string;
 }
 
-export default function NewExpense({ userClerkId }: Props) {
+export default function NewExpense({ userId }: Props) {
   const [isInstallments, setIsInstallments] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -75,7 +75,7 @@ export default function NewExpense({ userClerkId }: Props) {
     try {
       await axios.post("http://localhost:3333/expense", {
         ...values,
-        userClerkId,
+        userId,
       });
     } catch (error) {
       console.log(error);

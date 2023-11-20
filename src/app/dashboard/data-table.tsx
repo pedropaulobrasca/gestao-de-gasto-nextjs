@@ -38,13 +38,13 @@ import NewExpense from "@/components/new-expense";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  userClerkId: string;
+  userId: string;
 }
 
 export default function ExpensesDataTable<TData, TValue>({
   columns,
   data,
-  userClerkId,
+  userId,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -115,7 +115,7 @@ export default function ExpensesDataTable<TData, TValue>({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <NewExpense userClerkId={userClerkId as string} />
+          <NewExpense userId={userId as string} />
         </div>
       </div>
       <div className="rounded-md border">

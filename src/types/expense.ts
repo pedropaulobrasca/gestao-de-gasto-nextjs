@@ -8,7 +8,7 @@ export type Expense = {
   totalValue: number;
   description?: string;
   createdAt?: Date;
-  userClerkId?: string;
+  userId?: string;
 };
 
 export interface IExpense {
@@ -21,5 +21,5 @@ export interface IExpense {
   totalValue: number;
   description?: string;
   createdAt?: Date;
-  userClerkId?: string;
+  userId?: string;
 }
